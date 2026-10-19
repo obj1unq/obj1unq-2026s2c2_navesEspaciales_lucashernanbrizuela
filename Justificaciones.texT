@@ -1,0 +1,10 @@
+## 1. Las naves
+### Ejercicio
+
+Analizar si el código predeterminado debe reestructurarse mediante alguna herencia. 
+En caso que si, modificarlo y justificar.
+
+Se debe reestructurarse creando una nueva clase llamada NaveGeneral que contendra todoss los atributos
+y metodos que comparten entre las clases NaveDeCombate, NaveDePasajeros y NaveDeCarga.
+
+

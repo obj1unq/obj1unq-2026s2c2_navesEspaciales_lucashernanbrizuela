@@ -16,6 +16,7 @@ De las naves conocemos su velocidad, medida en _kms/seg_; y, por ahora, nos pidi
 
 Analizar si el código predeterminado debe reestructurarse mediante alguna herencia. En caso que si, modificarlo y justificar.
 
+
 ## 2. Propulsión
 
 Al código predeterminado se le debe incorporar la función que permite que todas las naves se puedan _propulsar_. Esto aumenta su velocidad en 20.000 kms/seg, pero nunca puede superar los 300.000 kms/seg, siendo este su máximo alcanzable.
@@ -50,11 +51,12 @@ Además de eso ocurre lo siguiente:
 
 ## 5. Enfrentar enemigo
 
- Hacer que una nave se encuentre con un enemigo. Esto les hace recibir una amenaza, sufriendo los efectos particulares de cada nave, y luego se propulsan para intentar escapar.
+Hacer que una nave se encuentre con un enemigo. Esto les hace recibir una amenaza, sufriendo los efectos particulares de cada nave, y luego se propulsan para intentar escapar.
 
 
 ### Escenario de prueba 
 
-Testear que una nave de pasajeros sin velocidad al encontrarse con un enemigo queda con velocidad de 20.000 kms/seg y su alarma en caso de emergencia activada.
+Testear que una nave de pasajeros sin velocidad al encontrarse con un enemigo queda 
+con velocidad de 20.000 kms/seg y su alarma en caso de emergencia activada.
 
 Para pensar: ¿Hace falta testear más casos?

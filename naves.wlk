@@ -1,13 +1,47 @@
-class NaveDeCarga {
-
+class NaveGeneral {
 	var property velocidad = 0
+
+	method encontreUnEnemigo() {
+	  self.recibirAmenaza()
+	  self.propulsar()
+	}
+
+	method recibirAmenaza()
+
+	method propulsar() {
+	  self.sumarCantidadHasta(20000) 
+	}
+
+	method prepararParaViajar() {
+	  self.sumarCantidadHasta(15000)
+	}
+
+	method sumarCantidadHasta(cantidad) {
+	  if( velocidad+cantidad > 300000){
+		velocidad = 300000
+	  }else{
+		velocidad += cantidad
+	  }	  
+	}
+
+}
+
+/*
+Hacer que una nave se encuentre con un enemigo. 
+Esto les hace recibir una amenaza, sufriendo los efectos particulares de cada nave, 
+y luego se propulsan para intentar escapar.
+*/
+
+class NaveDeCarga inherits NaveGeneral {
+
+	//var property velocidad = 0
 	var property carga = 0
 
 	method sobrecargada() = carga > 100000
 
 	method excedidaDeVelocidad() = velocidad > 100000
 
-	method recibirAmenaza() {
+	override method recibirAmenaza() {
 		carga = 0
 	}
 	
@@ -21,9 +55,22 @@ class NaveDeCarga {
 
 }
 
-class NaveDePasajeros {
+class NaveDeCargaDeResiduosRadiactivos inherits NaveDeCarga{
+	override method recibirAmenaza() {
+		velocidad = 0
+	}
 
-	var property velocidad = 0
+	override method prepararParaViajar() {
+	  velocidad += 15000
+	  carga = 0
+	}
+}
+
+
+
+class NaveDePasajeros inherits NaveGeneral {
+
+	//var property velocidad = 0
 	var property alarma = false
 	const cantidadDePasajeros = 0
 
@@ -33,14 +80,14 @@ class NaveDePasajeros {
 
 	method estaEnPeligro() = velocidad > self.velocidadMaximaPermitida() or alarma
 
-	method recibirAmenaza() {
+	override method recibirAmenaza() {
 		alarma = true
 	}
 
 }
 
-class NaveDeCombate {
-	var property velocidad = 0
+class NaveDeCombate inherits NaveGeneral {
+	//var property velocidad = 0
 	var property modo = reposo
 	const property mensajesEmitidos = []
 
@@ -52,8 +99,18 @@ class NaveDeCombate {
 
 	method estaInvisible() = velocidad < 10000 and modo.invisible()
 
-	method recibirAmenaza() {
+	override method recibirAmenaza() {
 		modo.recibirAmenaza(self)
+	}
+	
+	override method prepararParaViajar() {
+	  velocidad += 15000
+	  if(modo == ataque){
+		self.emitirMensaje("Volviendo a la base")
+	  }else{
+		self.emitirMensaje("Saliendo en mision")
+		modo = ataque
+	  }
 	}
 
 }
