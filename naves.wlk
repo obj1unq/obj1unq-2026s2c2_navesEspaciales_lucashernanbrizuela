@@ -1,13 +1,37 @@
-class NaveDeCarga {
-
+class NaveGeneral {
 	var property velocidad = 0
+
+	method encontreUnEnemigo() {
+	  self.recibirAmenaza()
+	  self.propulsar()
+	}
+
+	method recibirAmenaza()
+
+	method propulsar() {
+	  self.sumarCantidadHasta(20000) 
+	}
+
+	method prepararParaViajar() {
+	  self.sumarCantidadHasta(15000)
+	}
+
+	method sumarCantidadHasta(cantidad) {
+		velocidad = 300000.min(velocidad+cantidad)
+	}
+
+}
+
+class NaveDeCarga inherits NaveGeneral {
+
+	//var property velocidad = 0
 	var property carga = 0
 
 	method sobrecargada() = carga > 100000
 
 	method excedidaDeVelocidad() = velocidad > 100000
 
-	method recibirAmenaza() {
+	override method recibirAmenaza() {
 		carga = 0
 	}
 	
@@ -21,9 +45,22 @@ class NaveDeCarga {
 
 }
 
-class NaveDePasajeros {
+class NaveDeCargaDeResiduosRadiactivos inherits NaveDeCarga{
+	override method recibirAmenaza() {
+		velocidad = 0
+	}
 
-	var property velocidad = 0
+	override method prepararParaViajar() {
+	  super()
+	  carga = 0
+	}
+}
+
+
+
+class NaveDePasajeros inherits NaveGeneral {
+
+	//var property velocidad = 0
 	var property alarma = false
 	const cantidadDePasajeros = 0
 
@@ -33,14 +70,14 @@ class NaveDePasajeros {
 
 	method estaEnPeligro() = velocidad > self.velocidadMaximaPermitida() or alarma
 
-	method recibirAmenaza() {
+	override method recibirAmenaza() {
 		alarma = true
 	}
 
 }
 
-class NaveDeCombate {
-	var property velocidad = 0
+class NaveDeCombate inherits NaveGeneral {
+	//var property velocidad = 0
 	var property modo = reposo
 	const property mensajesEmitidos = []
 
@@ -52,9 +89,16 @@ class NaveDeCombate {
 
 	method estaInvisible() = velocidad < 10000 and modo.invisible()
 
-	method recibirAmenaza() {
+	override method recibirAmenaza() {
 		modo.recibirAmenaza(self)
 	}
+	
+	override method prepararParaViajar() {
+		super()
+		self.emitirMensaje(modo.emitirMensajede())
+		modo = ataque
+	}
+
 
 }
 
@@ -66,6 +110,10 @@ object reposo {
 		nave.emitirMensaje("¡RETIRADA!")
 	}
 
+	method emitirMensajede() {
+	  return "Saliendo en misión"
+	}
+
 }
 
 object ataque {
@@ -74,6 +122,10 @@ object ataque {
 
 	method recibirAmenaza(nave) {
 		nave.emitirMensaje("Enemigo encontrado")
+	}
+
+	method emitirMensajede() {
+	  return "Volviendo a la base"
 	}
 
 }

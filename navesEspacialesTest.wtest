@@ -1,5 +1,81 @@
 import naves.*
 
+describe "Encontre un enemigo" {
+	
+  const naveConPasajeros = new NaveDePasajeros()	
+  test "Nave de pasajeros" {
+	assert.equals(0, naveConPasajeros.velocidad())
+	assert.equals(false, naveConPasajeros.alarma())
+	naveConPasajeros.encontreUnEnemigo()
+	assert.equals(20000, naveConPasajeros.velocidad())
+	assert.equals(true, naveConPasajeros.alarma())
+  }
+}
+
+
+describe "Preparacion de viaje" {
+  const naveConPasajeros = new NaveDePasajeros(velocidad = 290000)
+  const naveRadiactiva = new NaveDeCargaDeResiduosRadiactivos(carga = 5000)
+  
+  const naveCombate1 = new NaveDeCombate(modo = ataque)
+  const naveCombate2 = new NaveDeCombate()
+
+  test "Volviendo a la base" {
+	assert.equals(290000, naveConPasajeros.velocidad())
+	naveConPasajeros.prepararParaViajar()
+	assert.equals(300000, naveConPasajeros.velocidad())
+	assert.equals(0, naveRadiactiva.velocidad())
+	naveRadiactiva.prepararParaViajar()
+	assert.equals(15000, naveRadiactiva.velocidad())
+	assert.equals(0, naveRadiactiva.carga())
+
+	assert.equals(0, naveCombate1.velocidad())
+	naveCombate1.prepararParaViajar()
+	assert.equals(15000, naveCombate1.velocidad())
+	assert.equals("Volviendo a la base", naveCombate1.mensajesEmitidos().first())
+
+
+	assert.equals(0, naveCombate2.velocidad())
+	assert.equals(reposo, naveCombate2.modo())
+	naveCombate2.prepararParaViajar()
+	assert.equals(15000, naveCombate1.velocidad())
+	assert.equals("Saliendo en misión", naveCombate2.mensajesEmitidos().first())
+	assert.equals(ataque, naveCombate2.modo())
+
+
+
+  }
+}
+
+describe "Nave Con Residuos Radiactivos" {
+
+  const naveRadiactiva = new NaveDeCargaDeResiduosRadiactivos(carga = 5000, velocidad = 10000)
+  test "Bajo a amenaza" {
+	assert.equals(5000, naveRadiactiva.carga())
+	assert.equals(10000, naveRadiactiva.velocidad())
+	naveRadiactiva.recibirAmenaza()
+    assert.equals(5000, naveRadiactiva.carga())
+	assert.equals(0, naveRadiactiva.velocidad())
+	
+  }
+}
+
+
+
+describe "Nave General" {
+  const naveLlena = new NaveDeCarga()
+  const naveConPasajeros = new NaveDePasajeros(cantidadDePasajeros = 296, velocidad = 290000)
+  test "Propulsion" { 
+	assert.equals(0, naveLlena.velocidad())
+	naveLlena.propulsar()
+	assert.equals(20000, naveLlena.velocidad())
+
+	naveConPasajeros.propulsar()
+	assert.equals(300000, naveConPasajeros.velocidad())
+  }
+}
+
+
 describe "Nave de carga" {
 
 	const naveVacia = new NaveDeCarga()
