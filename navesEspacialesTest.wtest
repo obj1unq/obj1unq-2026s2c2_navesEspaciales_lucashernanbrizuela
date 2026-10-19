@@ -39,7 +39,7 @@ describe "Preparacion de viaje" {
 	assert.equals(reposo, naveCombate2.modo())
 	naveCombate2.prepararParaViajar()
 	assert.equals(15000, naveCombate1.velocidad())
-	assert.equals("Saliendo en mision", naveCombate2.mensajesEmitidos().first())
+	assert.equals("Saliendo en misión", naveCombate2.mensajesEmitidos().first())
 	assert.equals(ataque, naveCombate2.modo())
 
 

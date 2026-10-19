@@ -17,20 +17,10 @@ class NaveGeneral {
 	}
 
 	method sumarCantidadHasta(cantidad) {
-	  if( velocidad+cantidad > 300000){
-		velocidad = 300000
-	  }else{
-		velocidad += cantidad
-	  }	  
+		velocidad = 300000.min(velocidad+cantidad)
 	}
 
 }
-
-/*
-Hacer que una nave se encuentre con un enemigo. 
-Esto les hace recibir una amenaza, sufriendo los efectos particulares de cada nave, 
-y luego se propulsan para intentar escapar.
-*/
 
 class NaveDeCarga inherits NaveGeneral {
 
@@ -61,7 +51,7 @@ class NaveDeCargaDeResiduosRadiactivos inherits NaveDeCarga{
 	}
 
 	override method prepararParaViajar() {
-	  velocidad += 15000
+	  super()
 	  carga = 0
 	}
 }
@@ -104,14 +94,11 @@ class NaveDeCombate inherits NaveGeneral {
 	}
 	
 	override method prepararParaViajar() {
-	  velocidad += 15000
-	  if(modo == ataque){
-		self.emitirMensaje("Volviendo a la base")
-	  }else{
-		self.emitirMensaje("Saliendo en mision")
+		super()
+		self.emitirMensaje(modo.emitirMensajede())
 		modo = ataque
-	  }
 	}
+
 
 }
 
@@ -123,6 +110,10 @@ object reposo {
 		nave.emitirMensaje("¡RETIRADA!")
 	}
 
+	method emitirMensajede() {
+	  return "Saliendo en misión"
+	}
+
 }
 
 object ataque {
@@ -131,6 +122,10 @@ object ataque {
 
 	method recibirAmenaza(nave) {
 		nave.emitirMensaje("Enemigo encontrado")
+	}
+
+	method emitirMensajede() {
+	  return "Volviendo a la base"
 	}
 
 }
